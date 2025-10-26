@@ -1,33 +1,27 @@
-# Import Flask class
-from flask import Flask, request, render_template, make_response
+# app.py
+from flask import Flask, request, render_template
+from model import predict_best_model
 
-from linearRegression import linearRegression
+app = Flask(__name__, template_folder="/home/prabhakar/PycharmProject/House_Price_Prediction/template")
 
-# Create Flask application instance
-app = Flask(__name__,template_folder="/home/prabhakar/PycharmProject/House_Price_Prediction/template")
-# Define a route (URL path) and a view function
-@app.route('/model', methods=["POST"])
-def LinearRegression():
-    NumberOfRooms = request.form['NumberOfRooms']
-    NumberOfBedrooms = request.form['NumberOfBedrooms']
-    HouseAge = request.form['HouseAge']
-    AvgAreaIncome = request.form['AvgAreaIncome']
-    AreaPopulation = request.form['AreaPopulation']
-    predictedPrice = linearRegression(NumberOfRooms=int(NumberOfRooms), NumberOfBedrooms=int(NumberOfBedrooms), HouseAge=int(HouseAge),
-                                      AvgAreaIncome=int(AvgAreaIncome), AreaPopulation=int(AreaPopulation))
-    return make_response(str(predictedPrice[0]))
 
-@app.route('/',methods=["GET"])
+@app.route('/', methods=["GET", "POST"])
 def home():
-    return render_template("index.html")
+    predictedPrice = None
+    model_used = None
+
+    if request.method == "POST":
+        NumberOfRooms = float(request.form['NumberOfRooms'])
+        NumberOfBedrooms = float(request.form['NumberOfBedrooms'])
+        HouseAge = float(request.form['HouseAge'])
+        AvgAreaIncome = float(request.form['AvgAreaIncome'])
+        AreaPopulation = float(request.form['AreaPopulation'])
+
+        predictedPrice, model_used = predict_best_model(NumberOfRooms, NumberOfBedrooms, HouseAge, AvgAreaIncome,
+                                                        AreaPopulation)
+
+    return render_template("index.html", predictedPrice=predictedPrice, model_used=model_used)
 
 
-# Another route~e
-@app.route('/')
-def about():
-    return render_template("about.html")
-
-
-# Run the app (start the Flask development server)
 if __name__ == "__main__":
     app.run(debug=True)

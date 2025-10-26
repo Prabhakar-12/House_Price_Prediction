@@ -61,7 +61,7 @@
 <body>
     <div class="form-container">
         <h2>Predict House Price</h2>
-        <form action="/model" method="POST">
+        <form action="/" method="POST">
             <label for="NumberOfRooms">Number of Rooms</label>
             <input type="number" step="any" name="NumberOfRooms" id="NumberOfRooms" required>
 
@@ -81,10 +81,12 @@
         </form>
 
         {% if predictedPrice %}
-            <div class="result">
-                <h3>Predicted Price: ₹ {{ predictedPrice }}</h3>
-            </div>
-        {% endif %}
+    <div class="result">
+        <h3>Predicted Price: ₹ {{ predictedPrice }}</h3>
+        <p>Model Used: {{ model_used }}</p>
+    </div>
+{% endif %}
+
     </div>
 </body>
 </html>
