@@ -17,8 +17,7 @@ def linearRegression(NumberOfRooms, NumberOfBedrooms,HouseAge,AvgAreaIncome,Area
     Data = Data.dropna()
 
     # Define features (X) and target (y)
-    X = Data[['Avg. Area Income', 'Avg. Area House Age',
-              'Avg. Area Number of Rooms', 'Avg. Area Number of Bedrooms',
+    X = Data[['Avg. Area Number of Rooms', 'Avg. Area Number of Bedrooms','Avg. Area House Age','Avg. Area Income',
               'Area Population']]
     y = Data['Price']
 
@@ -38,38 +37,38 @@ def linearRegression(NumberOfRooms, NumberOfBedrooms,HouseAge,AvgAreaIncome,Area
     y_pred = model.predict(X_test_scaled)
 
     # Evaluate the model's performance
-    mse = mean_squared_error(y_test, y_pred)
-    r2 = r2_score(y_test, y_pred)
-    mae = mean_absolute_error(y_test, y_pred)
+    # mse = mean_squared_error(y_test, y_pred)
+    # r2 = r2_score(y_test, y_pred)
+    # mae = mean_absolute_error(y_test, y_pred)
 
     #print("MSE:", mse)
     #print("R² Score:", r2)
     #print("MAE:", mae)
 
     # Plotting Actual vs Predicted
-    plt.figure(figsize=(8,6), dpi=100)
-    plt.scatter(y_test, y_pred, alpha=0.4, color='blue')
-    plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color='red', lw=2)  # Perfect prediction line
-    plt.xlabel("Actual Prices")
-    plt.ylabel("Predicted Prices")
-    plt.title("Linear Regression: Actual vs Predicted House Prices")
-    plt.grid(True)
-    plt.savefig("LinearRegression.jpg")
-    plt.show()
-
-    # Plotting Residuals
-    # residual = actual - predicted
+    # plt.figure(figsize=(8,6), dpi=100)
+    # plt.scatter(y_test, y_pred, alpha=0.4, color='blue')
+    # plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color='red', lw=2)  # Perfect prediction line
+    # plt.xlabel("Actual Prices")
+    # plt.ylabel("Predicted Prices")
+    # plt.title("Linear Regression: Actual vs Predicted House Prices")
+    # plt.grid(True)
+    # plt.savefig("LinearRegression.jpg")
+    # plt.show()
+    #
+    # # Plotting Residuals
+    # # residual = actual - predicted
+    # # residuals = y_test - y_pred
     # residuals = y_test - y_pred
-    residuals = y_test - y_pred
-    plt.figure(figsize=(8,6))
-    plt.scatter(y_pred, residuals, alpha=0.5, color='green')
-    #  This line represents:
-    # The zero residual line, i.e., where actual value = predicted value.
-    plt.axhline(y=0, color='red', linestyle='--')  # Zero residual line
-    plt.xlabel("Predicted Prices")
-    plt.ylabel("Residuals")
-    plt.title("Residuals vs Predicted Prices")
-    plt.show()
+    # plt.figure(figsize=(8,6))
+    # plt.scatter(y_pred, residuals, alpha=0.5, color='green')
+    # #  This line represents:
+    # # The zero residual line, i.e., where actual value = predicted value.
+    # plt.axhline(y=0, color='red', linestyle='--')  # Zero residual line
+    # plt.xlabel("Predicted Prices")
+    # plt.ylabel("Residuals")
+    # plt.title("Residuals vs Predicted Prices")
+    # plt.show()
     return model.predict([[AvgAreaIncome,HouseAge,NumberOfRooms,NumberOfBedrooms,AreaPopulation]])
     """ Residual less than 0 (below the red line):
     Actual < Predicted
